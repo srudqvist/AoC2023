@@ -24,9 +24,6 @@ def read_file(file_path):
                 if calibration_value != 0:
                     calibration_list.append(calibration_value)
                 
-                if counter == 2:
-                    break
-
             print(f"sum, {sum(calibration_list)}")
             return sum(calibration_list)
             
