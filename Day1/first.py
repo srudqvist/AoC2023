@@ -12,7 +12,6 @@ def process_line(line):
         return int(calibration_value)
     return 0  # Return 0 if no numbers found in the line
 
-
 def read_file(file_path):
     try:
         with open(file_path, 'r') as file:
