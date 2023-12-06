@@ -7,31 +7,33 @@
 
 
 max_cubes = {
-    "r":12,
-    "g":13,
-    "b":14,
+    "red":12,
+    "green":13,
+    "blue":14,
 }
 
 
 def determine_game(line):
-    game, sets = line.split(':')
+    game, sets = line.split(': ')
     game, game_number = game.split(' ')
-    print(game_number)
-    print(sets) 
     sets = sets.split('; ')
-    print(sets)
     for current_set in sets:
-        
+        current_set = current_set.split(', ')
+        for cubes in current_set:
+            value, color = cubes.strip().split(' ')
+            if max_cubes[color] < int(value):
+                print(f"Returning False: {cubes}")
+                return 0
+    return int(game_number)
 
 def read_file(file_path):
     try:
+        total = 0
         with open(file_path, 'r') as file:
             for line in file:
                 print(line)
-                determine_game(line)
-                break
-            data = file.read().strip()
-            print(data[0])
+                total += determine_game(line)
+            print(total)
     except FileNotFoundError:
         print("File not found.")
     except IOError as e:
