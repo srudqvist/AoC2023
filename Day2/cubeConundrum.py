@@ -32,7 +32,7 @@ def determine_game(line):
 
             if min_cubes[color] == 0:
                 min_cubes[color] = int(value)
-            if min_cubes[color] > int(value):
+            if min_cubes[color] < int(value):
                 min_cubes[color] = int(value)
     print(min_cubes)
     power = 1
@@ -41,8 +41,10 @@ def determine_game(line):
             power *= value
     print(f"Power: {power}")
     if game_invalid:
+        print(f"returning: {0, power}")
         return 0, power
     else:
+        print(f"returning: {int(game_number), power}")
         return int(game_number), power
 
 
@@ -65,6 +67,6 @@ def read_file(file_path):
         print("Error reading the file:", e)
 
 
-read_file("Day2\day2Input.txt")
+# read_file("Day2\day2Input.txt")
 
-# read_file("./day2Input.txt")
+read_file("./day2Input.txt")
