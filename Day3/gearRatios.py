@@ -62,7 +62,7 @@ def isSymbol(ch):
 
 # readData: read the data file into a list of lists stripping newlines
 def readData():
-    with open("Day3\day3Input.txt") as f:
+    with open("./day3Input.txt") as f:
         return f.read().splitlines()
 
 
