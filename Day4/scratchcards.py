@@ -1,4 +1,7 @@
 # scratchcards.py
+from queue import Queue
+
+
 
 
 
@@ -7,26 +10,53 @@ def handleCard(card):
     card_number, all_numbers = card.split(": ")
     winning_numbers, my_numbers = all_numbers.split(" | ")
     winning_numbers = [int(num) for num in winning_numbers.split()]
-    print(f"winning numbers: {winning_numbers}")
     my_numbers = [int(num) for num in my_numbers.split()]
-    print(f"my numbers: {my_numbers}")
+
+    ws = set(winning_numbers)
+    os = set(my_numbers)
+    matches = ws & os
     for number in my_numbers:
         if number in winning_numbers:
             if points > 0:
                 points = points * 2
             else:
                 points += 1
-    return points
+    card_number = int(card_number[4:])
+    return card_number, points
 
 
 def read_file(file_path):
     try:
+
         with open(file_path, 'r') as file:
-            total_points = 0
+            
+            my_dict = {}
+            my_queue = Queue()
+            part2_answer = 0
+            part1_answer = 0
             for line in file:
-                total_points += handleCard(line)
-            print(f"total points: {total_points}")
+                card_number, points = handleCard(line)
+                part1_answer += points
+                my_dict[card_number] = points
+                my_queue.put(card_number)
+
+            while not my_queue.empty():
+                part2_answer += 1
+                card_id = my_queue.get()
+                try:
+                    for i in range(card_id + 1, card_id + my_dict[card_id] + 1):
+                        #print(f"mydict[card_id] {my_dict[card_id]}")
+                        my_queue.put(i)
+                        #print(f"Part 2 Answer: {part2_answer}")
+                except KeyError:
+                    print("KeyError")
+                    print(f"Part 2 Answer: {part2_answer}")
+            print(f"Part 1 Answer: {part1_answer}")
+            print(f"Part 2 Answer: {part2_answer}")
             # data = f.read().strip()
+    # except KeyError as e:
+    #     print("here")
+    #     print(e)
     except FileNotFoundError:
         print("File not found.")
     except IOError as e:
