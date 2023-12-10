@@ -25,26 +25,16 @@ def second(content):
     
     time = list(map(int, time.split(":")[1].strip().split()))
     time = int(''.join(map(str, time)))
-    print(time)
 
     distance = list(map(int, distance.split(":")[1].strip().split()))
     distance = int(''.join(map(str, distance)))
-    print(distance)
     
-    counts = []
-    for i in range(len(time)):
-        t = time[i]
-        d = distance[i]
-        count = 0
-        for i in range(0, t):
-            my_dist = i * (t - i)
-            if my_dist > d:
-                count += 1
-        counts.append(count)
-    result = 1
-    for num in counts:
-        result *= num
-    print(f"Result: {result}")
+    count = 0
+    for i in range(0, time):
+        my_dist = i * (time - i)
+        if my_dist > distance:
+            count += 1
+    print(f'Result Part 2: {count}')
 
 
 def read_file(file_path):
