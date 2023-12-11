@@ -11,9 +11,14 @@ for (let i = 0; i < lines.length; i++) {
 const hands = [];
 lines.forEach((line) => {
   const [cards, bid] = line.split(" ");
+  let type;
+  let rank;
+
   const hand = {
     cards: cards,
     bid: parseInt(bid),
+    type: type,
+    rank: rank,
   };
   hands.push(hand);
 });
