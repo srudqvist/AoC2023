@@ -13,6 +13,7 @@ lines.forEach((line) => {
   const [cards, bid] = line.split(" ");
   let type;
   let rank;
+  detectType(cards);
 
   const hand = {
     cards: cards,
@@ -23,6 +24,10 @@ lines.forEach((line) => {
   hands.push(hand);
 });
 
-for (let i = 0; i < hands.length; i++) {
-  console.log(`Hands: ${hands[i].cards}, ${hands[i].bid}`);
+function detectType(cards) {
+  console.log(`Cards: ${cards}`);
+  cards = cards.split("").sort().join("");
+  console.log(`Cards: ${cards}`);
+  console.log("\n");
+  for (let i = 0; i < cards.length - 1; i++) {}
 }
