@@ -1,15 +1,14 @@
 const fs = require("fs");
 
-//let lines = fs.readFileSync("./day7Input.txt").toString().trim().split("\n");
-let lines = fs.readFileSync("./testInput.txt").toString().trim().split("\n");
+//let lines = fs.readFileSync("./testInput2.txt").toString().trim().split("\n");
+let lines = fs.readFileSync("./day7Input.txt").toString().trim().split("\n");
+//let lines = fs.readFileSync("./testInput.txt").toString().trim().split("\n");
 
 //console.log(`Hands2: ${hands2} Bids2: ${bids2}`);
 
-for (let i = 0; i < lines.length; i++) {
-  console.log(`Lines: ${lines[i]}`);
-}
 //const order = ["A", "K", "Q", "J", "T", 9, 8, 7, 6, 5, 4, 3, 2];
-const order = [2, 3, 4, 5, 6, 7, 8, 9, "T", "J", "Q", "K", "A"];
+const order = ["2", "3", "4", "5", "6", "7", "8", "9", "T", "J", "Q", "K", "A"];
+
 let hands = [];
 lines.forEach((line) => {
   const [cards, bid] = line.split(" ");
@@ -23,7 +22,7 @@ lines.forEach((line) => {
     rank: rank,
   };
   hands.push(hand);
-  console.log(`Hand: ${hand.cards}, ${hand.bid}\n${hand.type}\n`);
+  //console.log(`Hand: ${hand.cards}, ${hand.bid}\n${hand.type}\n`);
 });
 
 hands = assignRank(hands);
@@ -42,11 +41,11 @@ function detectType(cards) {
   const fiveOfAKind = counts.includes(5);
   const fullHouse = pairs >= 1 && threeOfAKind;
 
-  if (fullHouse) {
+  if (fiveOfAKind) {
     return 6;
-  } else if (fiveOfAKind) {
-    return 5;
   } else if (fourOfAKind) {
+    return 5;
+  } else if (fullHouse) {
     return 4;
   } else if (threeOfAKind) {
     return 3;
@@ -62,29 +61,31 @@ function detectType(cards) {
 function assignRank(hands) {
   let sortedHands = hands.sort((a, b) => {
     if (a.type !== b.type) {
-      // Sort primarily by type
-      return a.type - b.type;
+      return a.type - b.type; // Sort primarily by type
     }
-
-    for (let i = 0; i < a.cards.length; i++) {
-      const cardA = a.cards[i];
-      const cardB = b.cards[i];
-
-      const indexA = order.indexOf(cardA);
-      const indexB = order.indexOf(cardB);
-
-      // Sort within the same type based on cards
-      if (indexA !== indexB) {
-        return indexA - indexB;
-      }
-    }
-    // If all cards are the same, no need to change their order within the same type
     return 0;
   });
+
   for (let i = 0; i < sortedHands.length; i++) {
     sortedHands[i].rank = i + 1;
   }
-  return sortedHands;
+  let superSorted = sortedHands.sort((a, b) => {
+    if (a.type == b.type) {
+      for (let i = 0; i < a.cards.length; i++) {
+        const indexA = order.indexOf(a.cards[i]);
+        const indexB = order.indexOf(b.cards[i]);
+        if (indexA !== indexB) {
+          return indexA - indexB;
+        }
+      }
+    }
+  });
+  for (let i = 0; i < superSorted.length; i++) {
+    superSorted[i].rank = i + 1;
+  }
+
+  //return sortedHands;
+  return superSorted;
 }
 
 function calculateWinnings(hands) {
@@ -95,5 +96,6 @@ function calculateWinnings(hands) {
     localCount = hands[i].rank * hands[i].bid;
     count += localCount;
   }
+  console.log(hands[999].rank);
   console.log(count);
 }
