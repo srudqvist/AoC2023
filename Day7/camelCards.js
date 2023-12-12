@@ -1,5 +1,6 @@
 const fs = require("fs");
 
+//let lines = fs.readFileSync("./day7Input.txt").toString().trim().split("\n");
 let lines = fs.readFileSync("./testInput.txt").toString().trim().split("\n");
 
 //console.log(`Hands2: ${hands2} Bids2: ${bids2}`);
@@ -30,9 +31,6 @@ calculateWinnings(hands);
 
 function detectType(cards) {
   cards = cards.split("").sort().join("");
-  // for (let i = 0; i < cards.length - 1; i++) {
-  //
-  // }
   const frequency = {};
   for (const card of cards) {
     frequency[card] = (frequency[card] || 0) + 1;
@@ -42,8 +40,11 @@ function detectType(cards) {
   const threeOfAKind = counts.includes(3);
   const fourOfAKind = counts.includes(4);
   const fiveOfAKind = counts.includes(5);
-  const fullHouse = 0;
-  if (fiveOfAKind) {
+  const fullHouse = pairs >= 1 && threeOfAKind;
+
+  if (fullHouse) {
+    return 6;
+  } else if (fiveOfAKind) {
     return 5;
   } else if (fourOfAKind) {
     return 4;
