@@ -7,7 +7,8 @@ let lines = fs.readFileSync("./day7Input.txt").toString().trim().split("\n");
 //console.log(`Hands2: ${hands2} Bids2: ${bids2}`);
 
 //const order = ["A", "K", "Q", "J", "T", 9, 8, 7, 6, 5, 4, 3, 2];
-const order = ["2", "3", "4", "5", "6", "7", "8", "9", "T", "J", "Q", "K", "A"];
+//const order = ["2", "3", "4", "5", "6", "7", "8", "9", "T", "J", "Q", "K", "A"];
+const order = ["J", "2", "3", "4", "5", "6", "7", "8", "9", "T", "Q", "K", "A"];
 
 let hands = [];
 lines.forEach((line) => {
@@ -40,6 +41,11 @@ function detectType(cards) {
   const fourOfAKind = counts.includes(4);
   const fiveOfAKind = counts.includes(5);
   const fullHouse = pairs >= 1 && threeOfAKind;
+
+  // TODO:
+  //   - check if there is one or more jokers that could bump the
+  //     type of the hand.
+  //   - how to make the best hand.
 
   if (fiveOfAKind) {
     return 6;
@@ -83,8 +89,6 @@ function assignRank(hands) {
   for (let i = 0; i < superSorted.length; i++) {
     superSorted[i].rank = i + 1;
   }
-
-  //return sortedHands;
   return superSorted;
 }
 
@@ -96,6 +100,5 @@ function calculateWinnings(hands) {
     localCount = hands[i].rank * hands[i].bid;
     count += localCount;
   }
-  console.log(hands[999].rank);
   console.log(count);
 }
