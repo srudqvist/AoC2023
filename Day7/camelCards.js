@@ -7,8 +7,9 @@ let lines = fs.readFileSync("./testInput.txt").toString().trim().split("\n");
 for (let i = 0; i < lines.length; i++) {
   console.log(`Lines: ${lines[i]}`);
 }
-const order = ["A", "K", "Q", "J", "T", 9, 8, 7, 6, 5, 4, 3, 2];
-const hands = [];
+//const order = ["A", "K", "Q", "J", "T", 9, 8, 7, 6, 5, 4, 3, 2];
+const order = [2, 3, 4, 5, 6, 7, 8, 9, "T", "J", "Q", "K", "A"];
+let hands = [];
 lines.forEach((line) => {
   const [cards, bid] = line.split(" ");
   let type = detectType(cards);
@@ -24,6 +25,8 @@ lines.forEach((line) => {
   console.log(`Hand: ${hand.cards}, ${hand.bid}\n${hand.type}\n`);
 });
 
+hands = assignRank(hands);
+calculateWinnings(hands);
 
 function detectType(cards) {
   cards = cards.split("").sort().join("");
@@ -39,10 +42,10 @@ function detectType(cards) {
   const threeOfAKind = counts.includes(3);
   const fourOfAKind = counts.includes(4);
   const fiveOfAKind = counts.includes(5);
-  const fullHouse;
+  const fullHouse = 0;
   if (fiveOfAKind) {
     return 5;
-  } else if (fourOfAKind){
+  } else if (fourOfAKind) {
     return 4;
   } else if (threeOfAKind) {
     return 3;
@@ -56,5 +59,40 @@ function detectType(cards) {
 }
 
 function assignRank(hands) {
+  let sortedHands = hands.sort((a, b) => {
+    if (a.type !== b.type) {
+      // Sort primarily by type
+      return a.type - b.type;
+    }
 
+    for (let i = 0; i < a.cards.length; i++) {
+      const cardA = a.cards[i];
+      const cardB = b.cards[i];
+
+      const indexA = order.indexOf(cardA);
+      const indexB = order.indexOf(cardB);
+
+      // Sort within the same type based on cards
+      if (indexA !== indexB) {
+        return indexA - indexB;
+      }
+    }
+    // If all cards are the same, no need to change their order within the same type
+    return 0;
+  });
+  for (let i = 0; i < sortedHands.length; i++) {
+    sortedHands[i].rank = i + 1;
+  }
+  return sortedHands;
+}
+
+function calculateWinnings(hands) {
+  let count = 0;
+  console.log(hands);
+  for (let i = 0; i < hands.length; i++) {
+    console.log(hands[i]);
+    localCount = hands[i].rank * hands[i].bid;
+    count += localCount;
+  }
+  console.log(count);
 }
