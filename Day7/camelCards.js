@@ -67,9 +67,11 @@ function detectType(cards) {
     }
     return 4;
   } else if (threeOfAKind) {
-    // Cases: 1J, 2J. 2J could turn into fullHouse but 5 of a kind is better.
-    if (jCount == 1 || jCount == 2) {
-      return 4 + jCount;
+    // Cases: 1J, 3J > turn into another existing number > fourOfAKind
+    if (jCount == 1) {
+      return 5;
+    } else if (jCount == 3) {
+      return 5;
     }
     return 3;
   } else if (pairs === 2) {
@@ -82,11 +84,15 @@ function detectType(cards) {
     // Cases: 1J
     // if 3J it would have been fullHouse
     // if 2J it would have been 2 pair
-    if (jCount == 1) {
-      return 2;
+    if (jCount > 0) {
+      return 3;
     }
     return 1;
   } else {
+    // 1J but no pairs
+    if (jCount == 1) {
+      return 1;
+    }
     return 0;
   }
 }
