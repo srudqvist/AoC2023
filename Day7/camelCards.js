@@ -1,8 +1,8 @@
 const fs = require("fs");
 
 //let lines = fs.readFileSync("./testInput2.txt").toString().trim().split("\n");
-// let lines = fs.readFileSync("./day7Input.txt").toString().trim().split("\n");
-let lines = fs.readFileSync("./testInput.txt").toString().trim().split("\n");
+let lines = fs.readFileSync("./day7Input.txt").toString().trim().split("\n");
+//let lines = fs.readFileSync("./testInput.txt").toString().trim().split("\n");
 
 //console.log(`Hands2: ${hands2} Bids2: ${bids2}`);
 
@@ -36,9 +36,8 @@ function detectType(cards) {
   for (const card of cards) {
     if (card === "J") {
       jCount++;
-    } else {
-      frequency[card] = (frequency[card] || 0) + 1;
     }
+    frequency[card] = (frequency[card] || 0) + 1;
   }
   console.log(jCount);
   const counts = Object.values(frequency);
@@ -56,17 +55,36 @@ function detectType(cards) {
   if (fiveOfAKind) {
     return 6;
   } else if (fourOfAKind) {
+    // Four of a kind always turns into 5 of a kind if J is present
+    if (jCount > 0) {
+      return 6;
+    }
     return 5;
   } else if (fullHouse) {
+    // Cases: 3J, 2J always turns into 5 of a kind
+    if (jCount == 2 || jCount == 3) {
+      return 6;
+    }
     return 4;
   } else if (threeOfAKind) {
+    // Cases: 1J, 2J. 2J could turn into fullHouse but 5 of a kind is better.
     if (jCount == 1 || jCount == 2) {
       return 4 + jCount;
     }
     return 3;
   } else if (pairs === 2) {
+    // Cases: 1J, 2J. If 1J make a fullHouse, if 2J make fourOfAKind.
+    if (jCount == 1 || jCount == 2) {
+      return 3 + jCount;
+    }
     return 2;
   } else if (pairs === 1) {
+    // Cases: 1J
+    // if 3J it would have been fullHouse
+    // if 2J it would have been 2 pair
+    if (jCount == 1) {
+      return 2;
+    }
     return 1;
   } else {
     return 0;
