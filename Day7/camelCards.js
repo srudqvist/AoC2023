@@ -1,8 +1,8 @@
 const fs = require("fs");
 
 //let lines = fs.readFileSync("./testInput2.txt").toString().trim().split("\n");
-let lines = fs.readFileSync("./day7Input.txt").toString().trim().split("\n");
-//let lines = fs.readFileSync("./testInput.txt").toString().trim().split("\n");
+// let lines = fs.readFileSync("./day7Input.txt").toString().trim().split("\n");
+let lines = fs.readFileSync("./testInput.txt").toString().trim().split("\n");
 
 //console.log(`Hands2: ${hands2} Bids2: ${bids2}`);
 
@@ -32,9 +32,15 @@ calculateWinnings(hands);
 function detectType(cards) {
   cards = cards.split("").sort().join("");
   const frequency = {};
+  let jCount = 0;
   for (const card of cards) {
-    frequency[card] = (frequency[card] || 0) + 1;
+    if (card === "J") {
+      jCount++;
+    } else {
+      frequency[card] = (frequency[card] || 0) + 1;
+    }
   }
+  console.log(jCount);
   const counts = Object.values(frequency);
   const pairs = counts.filter((count) => count === 2).length;
   const threeOfAKind = counts.includes(3);
@@ -54,6 +60,9 @@ function detectType(cards) {
   } else if (fullHouse) {
     return 4;
   } else if (threeOfAKind) {
+    if (jCount == 1 || jCount == 2) {
+      return 4 + jCount;
+    }
     return 3;
   } else if (pairs === 2) {
     return 2;
