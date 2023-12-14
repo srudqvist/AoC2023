@@ -6,7 +6,9 @@
 
 const fs = require("fs");
 
-let lines = fs.readFileSync("./testInput2.txt").toString().trim().split("\n");
+//let lines = fs.readFileSync("./testInput2.txt").toString().trim().split("\n");
+//let lines = fs.readFileSync("./testInput.txt").toString().trim().split("\n");
+let lines = fs.readFileSync("./day8Input.txt").toString().trim().split("\n");
 const path = lines.shift();
 console.log(path);
 
@@ -45,6 +47,11 @@ function findZZZ(nodes, path, goal) {
         steps++;
         console.log("L");
         console.log("test", nodes[currentNode][0]);
+        if (currentNode == goal) {
+          console.log("Goal Found");
+          console.log("Steps", steps);
+          goalFound = true;
+        }
       } else if ((path[i] = "R")) {
         // go to the right
         currentNode = nodes[currentNode][1];
