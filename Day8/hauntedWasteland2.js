@@ -8,7 +8,12 @@ const fs = require("fs");
 
 //let lines = fs.readFileSync("./testInput2.txt").toString().trim().split("\n");
 //let lines = fs.readFileSync("./testInput.txt").toString().trim().split("\n");
-let lines = fs.readFileSync("./day8Input.txt").toString().trim().split("\n");
+let lines = fs
+  .readFileSync("./testInputPart2.txt")
+  .toString()
+  .trim()
+  .split("\n");
+//let lines = fs.readFileSync("./day8Input.txt").toString().trim().split("\n");
 const path = lines.shift();
 console.log(path);
 
@@ -32,6 +37,10 @@ findZZZ(nodes, path, goal);
 function findZZZ(nodes, path, goal) {
   let steps = 0;
   let goalFound = false;
+  // Todo:
+  //    make startNodes a list of nodes where the key ends with A
+  //    make endNodes a list of nodes where the key ends with Z
+  //    when the all startNodes have found their endNodes return steps.
   const startNode = "AAA";
   let currentNode = startNode;
 
