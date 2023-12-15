@@ -53,29 +53,33 @@ function findZZZ(nodes, path, goal) {
   //    when the all startNodes have found their endNodes return steps.
   const startNode = "AAA";
   let currentNode = startNode;
+  let currentNodes = startNodes;
 
   while (!goalFound) {
     for (let i = 0; i < path.length; i++) {
-      if (path[i] == "L") {
-        // go to the left
-        currentNode = nodes[currentNode][0];
-        steps++;
-        if (currentNode == goal) {
-          console.log("Goal Found");
-          console.log("Steps", steps);
-          goalFound = true;
+      for (let j = 0; j < currentNodes.length; j++) {
+        if (path[i] == "L") {
+          // go to the left
+          currentNode = nodes[currentNode][0];
+          currentNodes[j] = nodes[currentNodes][j][0]; // see if this works...
+          steps++;
+          if (currentNode == goal) {
+            console.log("Goal Found");
+            console.log("Steps", steps);
+            goalFound = true;
+          }
+        } else if ((path[i] = "R")) {
+          // go to the right
+          currentNode = nodes[currentNode][1];
+          steps++;
+          if (currentNode == goal) {
+            console.log("Goal Found");
+            console.log("Steps", steps);
+            goalFound = true;
+          }
+        } else {
+          // Error
         }
-      } else if ((path[i] = "R")) {
-        // go to the right
-        currentNode = nodes[currentNode][1];
-        steps++;
-        if (currentNode == goal) {
-          console.log("Goal Found");
-          console.log("Steps", steps);
-          goalFound = true;
-        }
-      } else {
-        // Error
       }
     }
     console.log(`Current Node 2: ${currentNode}`);
