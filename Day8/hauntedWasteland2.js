@@ -42,9 +42,9 @@ console.log(nodes);
 console.log("START NODES\n", startNodes);
 console.log("\nEND NODES\n", endNodes);
 
-findZZZ(nodes, path, goal);
+findZZZ(nodes, path, goal, startNodes);
 
-function findZZZ(nodes, path, goal) {
+function findZZZ(nodes, path, goal, startNodes) {
   let steps = 0;
   let goalFound = false;
   // Todo:
@@ -54,35 +54,71 @@ function findZZZ(nodes, path, goal) {
   const startNode = "AAA";
   let currentNode = startNode;
   let currentNodes = startNodes;
+  console.log("Current Nodes: ", currentNodes);
+  let foundNodes = 0;
 
   while (!goalFound) {
     for (let i = 0; i < path.length; i++) {
-      for (let j = 0; j < currentNodes.length; j++) {
+      for (const myCurrentNode in currentNodes) {
+        console.log("key:", myCurrentNode);
+        console.log("left", nodes[myCurrentNode][0]);
+        console.log("right", nodes[myCurrentNode][1]);
         if (path[i] == "L") {
           // go to the left
-          currentNode = nodes[currentNode][0];
-          currentNodes[j] = nodes[currentNodes][j][0]; // see if this works...
-          steps++;
-          if (currentNode == goal) {
-            console.log("Goal Found");
-            console.log("Steps", steps);
+          console.log("\n", "LEEEFT", "\n");
+          console.log(
+            "current node inside children:",
+            nodes[myCurrentNode][0],
+            nodes[myCurrentNode][1],
+          );
+
+          currentNodes[myCurrentNode] = nodes[myCurrentNode][0]; // see if this works...
+          console.log("current node inside:", currentNodes[myCurrentNode]);
+          console.log(
+            "current node inside children:",
+            nodes[myCurrentNode][0],
+            nodes[myCurrentNode][1],
+          );
+          if (myCurrentNode in endNodes) {
+            console.log("End Found!");
             goalFound = true;
+            return 0;
           }
+          steps++;
         } else if ((path[i] = "R")) {
           // go to the right
-          currentNode = nodes[currentNode][1];
-          steps++;
-          if (currentNode == goal) {
-            console.log("Goal Found");
-            console.log("Steps", steps);
+          console.log("\n", "RIGHT", "\n");
+          console.log(
+            "current node inside children:",
+            nodes[myCurrentNode][0],
+            nodes[myCurrentNode][1],
+          );
+          currentNodes[myCurrentNode] = nodes[myCurrentNode][1]; // see if this works...
+
+          console.log("current node inside:", currentNodes[myCurrentNode]);
+          console.log(
+            "current node inside children:",
+            nodes[myCurrentNode][0],
+            nodes[myCurrentNode][1],
+          );
+          if (myCurrentNode in endNodes) {
+            console.log("End Found!");
             goalFound = true;
+            return 0;
           }
+          steps++;
         } else {
           // Error
         }
       }
+      console.log("Here");
     }
-    console.log(`Current Node 2: ${currentNode}`);
+    for (const myCurrentNode2 in currentNodes) {
+      console.log(`Current Nodes 2: ${myCurrentNode2}`);
+    }
+    if (steps > 2) {
+      break;
+    }
   }
   //return steps;
 }
