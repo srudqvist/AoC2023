@@ -22,6 +22,8 @@ lines.shift();
 
 const goal = "ZZZ";
 const nodes = {};
+let startNodes = {};
+let endNodes = {};
 
 lines.forEach((line) => {
   console.log(line);
@@ -29,8 +31,16 @@ lines.forEach((line) => {
   const values = value.substring(1, value.length - 1).split(", ");
 
   nodes[key] = values;
+  if (key.endsWith("A")) {
+    startNodes[key] = values;
+  }
+  if (key.endsWith("Z")) {
+    endNodes[key] = values;
+  }
 });
 console.log(nodes);
+console.log("START NODES\n", startNodes);
+console.log("\nEND NODES\n", endNodes);
 
 findZZZ(nodes, path, goal);
 
