@@ -8,12 +8,12 @@ const fs = require("fs");
 
 //let lines = fs.readFileSync("./testInput2.txt").toString().trim().split("\n");
 //let lines = fs.readFileSync("./testInput.txt").toString().trim().split("\n");
-let lines = fs
-  .readFileSync("./testInputPart2.txt")
-  .toString()
-  .trim()
-  .split("\n");
-//let lines = fs.readFileSync("./day8Input.txt").toString().trim().split("\n");
+// let lines = fs
+//   .readFileSync("./testInputPart2.txt")
+//   .toString()
+//   .trim()
+//   .split("\n");
+let lines = fs.readFileSync("./day8Input.txt").toString().trim().split("\n");
 const path = lines.shift();
 console.log(path);
 
@@ -41,6 +41,10 @@ lines.forEach((line) => {
 console.log(nodes);
 console.log("START NODES\n", startNodes);
 console.log("\nEND NODES\n", endNodes);
+let endKeys = [];
+for (const endNode in endNodes) {
+  endKeys.push(endNode);
+}
 
 findZZZ(nodes, path, goal, startNodes);
 
@@ -62,36 +66,45 @@ function findZZZ(nodes, path, goal, startNodes) {
       let newCurrentNodes = {};
       for (const myCurrentNode in currentNodes) {
         let LR_values = currentNodes[myCurrentNode];
-        console.log(`Current Node: ${myCurrentNode}`);
-        console.log("LR_values:", LR_values);
+        //console.log(`Current Node: ${myCurrentNode}`);
+        //console.log("LR_values:", LR_values);
         if (path[i] == "L") {
           // go to the left
-          console.log("LEEEFT");
+          //console.log("LEEEFT");
           let nextNodeKey = LR_values[0];
           let nextNodeValues = nodes[LR_values[0]];
-          console.log(`Next Node: ${nextNodeKey}: [${nextNodeValues}]`);
-          newCurrentNodes[LR_values[0]] = nextNodeValues;
+          //console.log(`Next Node: ${nextNodeKey}: [${nextNodeValues}]`);
+          newCurrentNodes[nextNodeKey] = nextNodeValues;
         } else if ((path[i] = "R")) {
           // go to the right
-          console.log("RIGHT");
-          let nextNode = nodes[LR_values[1]];
-          console.log(`Next Node: ${nextNode}`);
+          //console.log("RIGHT");
+          let nextNodeKey = LR_values[1];
+          let nextNodeValues = nodes[LR_values[1]];
+          //console.log(`Next Node: ${nextNodeKey}: [${nextNodeValues}]`);
+          newCurrentNodes[nextNodeKey] = nextNodeValues;
         } else {
           // Error
         }
       }
-      //currentNodes = newCurrentNodes;
+      currentNodes = newCurrentNodes;
       steps++;
-      for (const myCurrentNode2 in currentNodes) {
-        console.log(`Current Nodes 2: ${myCurrentNode2} \n\n`);
-        if (myCurrentNode2 in endNodes) {
-          console.log("End Node Found");
+      let currentKeys = [];
+      for (const currentNode in currentNodes) {
+        currentKeys.push(currentNode);
+      }
+      //console.log(`Current keys: ${currentKeys}\nEnd keys: ${endKeys}`);
+      let matchCount = 0;
+      for (let i = 0; i < endKeys.length; i++) {
+        if (endKeys[i] == currentKeys[i]) {
+          matchCount++;
         }
       }
-    }
-
-    if (steps > 3) {
-      break;
+      if (matchCount == endKeys.length) {
+        goalFound = true;
+        console.log("\n\n\n\n GOAL FOUND !!!");
+        console.log(`Steps: ${steps}`);
+        break;
+      }
     }
   }
   //return steps;
