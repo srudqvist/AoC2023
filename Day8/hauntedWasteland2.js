@@ -61,51 +61,21 @@ function findZZZ(nodes, path, goal, startNodes) {
     for (let i = 0; i < path.length; i++) {
       let newCurrentNodes = {};
       for (const myCurrentNode in currentNodes) {
+        let LR_values = currentNodes[myCurrentNode];
         console.log(`Current Node: ${myCurrentNode}`);
+        console.log("LR_values:", LR_values);
         if (path[i] == "L") {
           // go to the left
           console.log("LEEEFT");
-
-          console.log(
-            "current node children before change:",
-            nodes[myCurrentNode][0],
-            nodes[myCurrentNode][1],
-          );
-
-          currentNodes[myCurrentNode] = nodes[myCurrentNode][0]; // see if this works...
-          newCurrentNodes[nodes[myCurrentNode][1]];
-          //console.log("current node inside:", currentNodes[myCurrentNode]);
-          // console.log(
-          //   "current node inside children:",
-          //   nodes[myCurrentNode][0],
-          //   nodes[myCurrentNode][1],
-          // );
-          if (currentNodes[myCurrentNode] in endNodes) {
-            console.log("End Found!");
-            goalFound = true;
-            return 0;
-          }
+          let nextNodeKey = LR_values[0];
+          let nextNodeValues = nodes[LR_values[0]];
+          console.log(`Next Node: ${nextNodeKey}: [${nextNodeValues}]`);
+          newCurrentNodes[LR_values[0]] = nextNodeValues;
         } else if ((path[i] = "R")) {
           // go to the right
           console.log("RIGHT");
-          console.log(
-            "current node children before change:",
-            nodes[myCurrentNode][0],
-            nodes[myCurrentNode][1],
-          );
-          currentNodes[myCurrentNode] = nodes[myCurrentNode][1]; // see if this works...
-          newCurrentNodes[nodes[myCurrentNode][1]];
-          //console.log("current node inside:", currentNodes[myCurrentNode]);
-          // console.log(
-          //   "current node inside children:",
-          //   nodes[myCurrentNode][0],
-          //   nodes[myCurrentNode][1],
-          // );
-          if (currentNodes[myCurrentNode] in endNodes) {
-            console.log("End Found!");
-            goalFound = true;
-            return 0;
-          }
+          let nextNode = nodes[LR_values[1]];
+          console.log(`Next Node: ${nextNode}`);
         } else {
           // Error
         }
