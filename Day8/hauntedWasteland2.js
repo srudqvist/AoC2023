@@ -51,15 +51,8 @@ findZZZ(nodes, path, goal, startNodes);
 function findZZZ(nodes, path, goal, startNodes) {
   let steps = 0;
   let goalFound = false;
-  // Todo:
-  //    make startNodes a list of nodes where the key ends with A
-  //    make endNodes a list of nodes where the key ends with Z
-  //    when the all startNodes have found their endNodes return steps.
-  const startNode = "AAA";
-  let currentNode = startNode;
   let currentNodes = startNodes;
   console.log("Current Nodes: ", currentNodes);
-  let foundNodes = 0;
 
   while (!goalFound) {
     for (let i = 0; i < path.length; i++) {
@@ -70,12 +63,11 @@ function findZZZ(nodes, path, goal, startNodes) {
         //console.log("LR_values:", LR_values);
         if (path[i] == "L") {
           // go to the left
-          //console.log("LEEEFT");
           let nextNodeKey = LR_values[0];
           let nextNodeValues = nodes[LR_values[0]];
           //console.log(`Next Node: ${nextNodeKey}: [${nextNodeValues}]`);
           newCurrentNodes[nextNodeKey] = nextNodeValues;
-        } else if ((path[i] = "R")) {
+        } else if (path[i] == "R") {
           // go to the right
           //console.log("RIGHT");
           let nextNodeKey = LR_values[1];
@@ -99,11 +91,21 @@ function findZZZ(nodes, path, goal, startNodes) {
           matchCount++;
         }
       }
+      for (let i = 0; i < currentKeys.length; i++) {
+        if (currentKeys[i].endsWith("Z")) {
+          break;
+        }
+        if (i == currentKeys.length) {
+          goalFound = true;
+          console.log("\n\n\n\n GOAL FOUND 1 !!!");
+          console.log(`Steps: ${steps}`);
+          break;
+        }
+      }
       if (matchCount == endKeys.length) {
         goalFound = true;
         console.log("\n\n\n\n GOAL FOUND !!!");
         console.log(`Steps: ${steps}`);
-        break;
       }
     }
   }
