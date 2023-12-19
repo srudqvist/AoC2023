@@ -91,22 +91,25 @@ function findZZZ(nodes, path, goal, startNodes) {
           matchCount++;
         }
       }
-      for (let i = 0; i < currentKeys.length; i++) {
-        if (currentKeys[i].endsWith("Z")) {
-          break;
-        }
-        if (i == currentKeys.length) {
-          goalFound = true;
-          console.log("\n\n\n\n GOAL FOUND 1 !!!");
-          console.log(`Steps: ${steps}`);
-          break;
-        }
-      }
+      // for (let i = 0; i < currentKeys.length; i++) {
+      //   if (currentKeys[i].endsWith("Z")) {
+      //     break;
+      //   }
+      //   if (i == currentKeys.length) {
+      //     goalFound = true;
+      //     console.log("\n\n\n\n GOAL FOUND 1 !!!");
+      //     console.log(`Steps: ${steps}`);
+      //     break;
+      //   }
+      // }
       if (matchCount == endKeys.length) {
         goalFound = true;
         console.log("\n\n\n\n GOAL FOUND !!!");
         console.log(`Steps: ${steps}`);
       }
+    }
+    if (steps % 10000 == 0) {
+      console.log(steps);
     }
   }
   //return steps;
