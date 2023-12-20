@@ -57,6 +57,7 @@ function findZZZ(nodes, path, goal, startNodes) {
   while (!goalFound) {
     for (let i = 0; i < path.length; i++) {
       let newCurrentNodes = {};
+      let currentKeys = [];
       for (const myCurrentNode in currentNodes) {
         let LR_values = currentNodes[myCurrentNode];
         //console.log(`Current Node: ${myCurrentNode}`);
@@ -74,41 +75,30 @@ function findZZZ(nodes, path, goal, startNodes) {
           let nextNodeValues = nodes[LR_values[1]];
           //console.log(`Next Node: ${nextNodeKey}: [${nextNodeValues}]`);
           newCurrentNodes[nextNodeKey] = nextNodeValues;
-        } else {
-          // Error
         }
+        currentKeys.push(myCurrentNode);
       }
       currentNodes = newCurrentNodes;
       steps++;
-      let currentKeys = [];
-      for (const currentNode in currentNodes) {
-        currentKeys.push(currentNode);
-      }
+      // for (const currentNode in currentNodes) {
+      //   currentKeys.push(currentNode);
+      // }
       //console.log(`Current keys: ${currentKeys}\nEnd keys: ${endKeys}`);
       let matchCount = 0;
-      for (let i = 0; i < endKeys.length; i++) {
-        if (endKeys[i] == currentKeys[i]) {
-          matchCount++;
+      if (steps > 1000000000) {
+        for (let i = 0; i < endKeys.length; i++) {
+          if (endKeys[i] == currentKeys[i]) {
+            matchCount++;
+          }
+        }
+        if (matchCount == endKeys.length) {
+          goalFound = true;
+          console.log("\n\n\n\n GOAL FOUND !!!");
+          console.log(`Steps: ${steps}`);
         }
       }
-      // for (let i = 0; i < currentKeys.length; i++) {
-      //   if (currentKeys[i].endsWith("Z")) {
-      //     break;
-      //   }
-      //   if (i == currentKeys.length) {
-      //     goalFound = true;
-      //     console.log("\n\n\n\n GOAL FOUND 1 !!!");
-      //     console.log(`Steps: ${steps}`);
-      //     break;
-      //   }
-      // }
-      if (matchCount == endKeys.length) {
-        goalFound = true;
-        console.log("\n\n\n\n GOAL FOUND !!!");
-        console.log(`Steps: ${steps}`);
-      }
     }
-    if (steps % 10000 == 0) {
+    if (steps % 100000 == 0) {
       console.log(steps);
     }
   }
