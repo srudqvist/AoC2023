@@ -12,6 +12,10 @@ for (const line in lines) {
   console.log(lines[line]);
   let allDiffs = [];
   allDiffs.push(getDifferences(line));
+  let test = allDiffs.reduce((accumulator, currentValue) => {
+    return accumulator + currentValue;
+  }, 0);
+  console.log("TEST", test);
 }
 
 function getDifferences(line) {
